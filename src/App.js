@@ -1,5 +1,6 @@
 import React from 'react';
 import { fetchLocation } from './services/fetchLocation';
+import ReactMapGL from 'react-map-gl';
 import './App.css';
 
 class App extends React.Component {
@@ -7,12 +8,22 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      location: []
+      location: [],
+      viewport: {
+        latitude: 45.4211,
+        longitude: -75.6903,
+        width: 400,
+        higth: 400,
+        zoom: 10
+      },
+      mounted: false
     }
+    
   }
 
   componentDidMount() {
     this.getLocation();
+    this.setState({ mounted: true})
   }
 
   getLocation() {
@@ -23,7 +34,6 @@ class App extends React.Component {
         result = result[1];
         result = result.replace(";"," ");
         result = result.replace(")", " ");
-        result = JSON.parse(result);
         console.log(result)
         //nos iteresan ciertos datos que los recogeremos del estado
         this.setState({
@@ -34,9 +44,34 @@ class App extends React.Component {
   }
 
   render() {
+    const { viewport, mounted, location } = this.state;
     return (
-      <div className="App">
-        :D
+      <div style={{height: '100%'}}>
+        
+        <ReactMapGL
+          {...viewport}
+          width="100%"
+          height="100%"
+          mapStyle="mapbox://styles/mapbox/dark-v9"
+          mapboxApiAccessToken={"pk.eyJ1IjoiY2dvbnphcnUiLCJhIjoiY2sycDFiMGozMGI5NTNncHBuM2NpOHVsbyJ9.r7mu0ZDQk0jhZw4wALC8dg"}
+          onViewportChange={(viewport) => {
+            if (mounted) { this.setState({ viewport })}
+          }}
+        >
+          {location.features.map(item => {
+            return (
+            <Marker
+              key={item.id}
+              latitude={item.geometry.coordinates[1]}
+              longitude={item.geometry.coordinates[0]}
+            >
+              
+            </Marker>
+
+            );
+          })}
+          
+        </ReactMapGL>
       </div>
     );
   }
