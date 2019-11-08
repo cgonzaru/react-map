@@ -20,3 +20,10 @@
 .App-link {
   color: #09d3ac;
 }
+
+.pointer {
+  background-color: #09d3ac;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+}
