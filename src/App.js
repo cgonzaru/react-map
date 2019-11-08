@@ -35,6 +35,7 @@ class App extends React.Component {
         result = result.replace(";"," ");
         result = result.replace(")", " ");
         console.log(result)
+        result = JSON.parse(result);
         //nos iteresan ciertos datos que los recogeremos del estado
         this.setState({
           location: result.features
@@ -58,7 +59,7 @@ class App extends React.Component {
             if (mounted) { this.setState({ viewport })}
           }}
         >
-          {location.features.map(item => {
+          {location.map(item => {
             return (
             <Marker
               key={item.id}
