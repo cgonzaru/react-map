@@ -1,6 +1,7 @@
 import React from 'react';
 import { fetchLocation } from './services/fetchLocation';
 import ReactMapGL from 'react-map-gl';
+import Marker from 'react-google-maps';
 import './App.css';
 
 class App extends React.Component {
@@ -47,7 +48,7 @@ class App extends React.Component {
   render() {
     const { viewport, mounted, location } = this.state;
     return (
-      <div style={{height: '100%'}}>
+      <div style={{height: '100%', width: '100%'}}>
         
         <ReactMapGL
           {...viewport}
